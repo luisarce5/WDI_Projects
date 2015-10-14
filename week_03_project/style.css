@@ -1,0 +1,24 @@
+#master_box {
+  width: 900px;
+  height: 900px;
+  margin: 100 auto;
+  border: 150px 100px 150px 100px black solid;
+}
+
+.container1{
+  width: 250px;
+  height: 300px;
+  border: black solid 3px;
+  padding: 50px 25px;
+  margin-left: 100px;
+  float: left;
+}
+
+.container2{
+  width: 250px;
+  height: 300px;
+  border: black solid 3px;
+  padding: 50px 25px;
+  margin-right: 100px;
+  float: right;
+}
