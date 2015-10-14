@@ -1,24 +1,60 @@
 #master_box {
-  width: 900px;
-  height: 900px;
-  margin: 100 auto;
+  width: 750px;
+  height: 550px;
+  margin: 100px auto;
   border: 150px 100px 150px 100px black solid;
+  background-color: red;
 }
 
 .container1{
   width: 250px;
   height: 300px;
   border: black solid 3px;
-  padding: 50px 25px;
-  margin-left: 100px;
-  float: left;
+  margin: 50px 50px 50px 50px;
+  display: inline-block;
+  background-color: blue;
 }
 
 .container2{
   width: 250px;
   height: 300px;
   border: black solid 3px;
-  padding: 50px 25px;
-  margin-right: 100px;
-  float: right;
+  margin: 50px 50px 50px 50px;
+  display: inline-block;
+  background-color: green;
+}
+
+.top_row{
+  height: 75px;
+  width: 600px;
+  position: relative;
+  margin: 25px auto;
+}
+
+li{
+  display:inline;
+  margin: 50px 125px 50px 125 px;
+}
+
+.top_row_inbox{
+  border: 5px solid black;
+  height: 50px;
+  width: 150px;
+  text-align: center;
+  margin: 15px 5px 10px 5px;
+  padding: 15px 30px 15px 30px;
+  display: inline-block;
+  font-size: 25px;
+}
+
+.timer {
+  background-color: gray;
+}
+
+.score {
+  background-color: orange;
+}
+
+.bonus {
+  background-color: purple;
 }
