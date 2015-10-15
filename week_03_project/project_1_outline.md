@@ -29,14 +29,25 @@ The **Card** will show an image of a given **Shape** (for instance square, circl
 * Once the initial **Card** disappears, another **Card** is displayed.  Such **Card** then remains on the **Container** until the **Player** makes a **Move**.  
 ---
 ### How to Play
-* The **Player** observes the **Card** currently displayed in the **Container** and makes a **Move** by clicking **YES** if there was a match or **NO** if there was no match.
-* The **Player** scores points if the march was correct.
+* The **Player** observes the **Card** currently displayed in the **Container** and makes a **Move** by clicking **YES** if there was a **Match** or **NO** if there was no **Match**.
+* The **Player** scores points if the **Match** was correct.
 
 ---
 
 ### Back End
-* Actions
-* Objects
+#### Functions
+* makeCard ()
+* giveShape ()
+* giveColor ()
+* Move ()
+* Match ()
+* checkWin ()
+* score ()
+* timer ()
+
+#### Objects
+* Array with preceding Card and current Card
+* score board
 
 
 
