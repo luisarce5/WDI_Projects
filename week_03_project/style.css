@@ -25,8 +25,12 @@
   border: black solid 3px;
   margin: 50px 175px 25px 75px;
   display: inline-block;
-  background-color: green;
+  background-color: white;
   float: right;
+}
+
+.container_holder {
+  height: 450px;
 }
 
 .top_row{
@@ -36,7 +40,7 @@
   margin: 25px auto;
 }
 
-.top_row_inbox{
+.top_row_inboxes{
   border: 5px solid black;
   height: 50px;
   width: 150px;
@@ -48,9 +52,9 @@
 }
 
 .text_box {
-  font-size: 30px;
-  width: 500px;
-  height: 100px;
+  font-size: 40px;
+  width: 600px;
+  height: 130px;
   padding: 15px 10px 15px 10px;
   margin: 25px auto;
   border: 3px solid black;
@@ -94,4 +98,48 @@
 	border-left: 50px solid transparent;
 	border-right: 50px solid transparent;
 	border-bottom: 100px solid red;
+}
+.diamond{
+  width: 120px;
+   height: 120px;
+   margin: 55px;
+   background: #1eff00;
+/* Rotate */
+   -webkit-transform: rotate(-45deg);
+   -moz-transform: rotate(-45deg);
+   -ms-transform: rotate(-45deg);
+   -o-transform: rotate(-45deg);
+   transform: rotate(-45deg);
+/* Rotate Origin */
+   -webkit-transform-origin: 0 100%;
+   -moz-transform-origin: 0 100%;
+   -ms-transform-origin: 0 100%;
+   -o-transform-origin: 0 100%;
+   transform-origin: 0 100%;
+}
+.footer {
+  font-size: 40px;
+  width: 150px;
+  height: 100px;
+  padding: 10px 10px 10px 10px;
+  margin: 550px 100px 100px 100px;
+  border: 3px solid black;
+  background-color: white;
+  position: relative;
+  text-align: center
+}
+
+button {
+ font-size: 40px;
+ width: 200px;
+ height: 100px;
+ margin-right: 50px;
+ margin-top: 50px;
+ margin-left: 50px;
+ padding: 10px 50px 10px 50px;
+ border: 3px solid black;
+ background-color: white;
+ /*float: right;*/
+ text-align: center;
+ display: inline-block;
 }
