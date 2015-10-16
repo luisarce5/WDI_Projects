@@ -1,3 +1,8 @@
+p {
+  font-size: 40px;
+  font-weight: bold;
+}
+
 #master_box {
   width: 1300px;
   height: 1000px;
@@ -6,49 +11,6 @@
   background-color: red;
   overflow: hidden;
   display: block;
-}
-
-.container1{
-  width: 320px;
-  height: 350px;
-  border: black solid 3px;
-  margin: 50px 50px 25px 200px;
-  display: inline-block;
-  background-color: white;
-  /*float: left;*/
-    display: inline-block;
-
-}
-
-.match_display{
-  font-size:50px;
-  border: 3px solic black;
-  background-color: white;
-  height: 100px;
-  width: 100px;
-  margin: 50px 5px 50px 5px;
-  display: inline-block;
-  text-align: center;
-}
-
-p {
-  font-size: 40px;
-  font-weight: bold;
-}
-
-.container2{
-  width: 320px;
-  height: 350px;
-  border: black solid 3px;
-  margin: 50px 125px 25px 50px;
-  display: inline-block;
-  background-color: white;
-  /*float: right;*/
-  display: inline-block;
-}
-
-.container_holder {
-  height: 450px;
 }
 
 .top_row{
@@ -79,6 +41,43 @@ p {
   background-color: white;
   /*margin: 0px; auto;
   border: 2px black;*/
+}
+
+.container_holder {
+  height: 450px;
+}
+
+.container1{
+  width: 320px;
+  height: 350px;
+  border: black solid 3px;
+  margin: 50px 50px 25px 200px;
+  display: inline-block;
+  background-color: white;
+  /*float: left;*/
+    display: inline-block;
+}
+
+.match_display{
+  font-size:50px;
+  border: 3px solic black;
+  background-color: white;
+  height: 100px;
+  width: 100px;
+  margin: 50px 5px 50px 5px;
+  display: inline-block;
+  text-align: center;
+}
+
+.container2{
+  width: 320px;
+  height: 350px;
+  border: black solid 3px;
+  margin: 50px 125px 25px 50px;
+  display: inline-block;
+  background-color: white;
+  /*float: right;*/
+  display: inline-block;
 }
 
 .timer {
@@ -112,11 +111,14 @@ p {
 .triangle {
   width: 0;
 	height: 0;
-  margin: 55px;
-	border-left: 50px solid transparent;
-	border-right: 50px solid transparent;
-	border-bottom: 100px solid red;
+  margin: 55px auto;
+  /*margin: 55px;*/
+	border-left: 112px solid transparent;
+	border-right: 112px solid transparent;
+	border-bottom: 225px solid black;
+  /* this property is modified/applied in the DOM*/
 }
+
 .diamond{
   width: 120px;
    height: 120px;

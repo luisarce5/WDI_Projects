@@ -6,24 +6,6 @@ window.onload = function () {
   $('#button4').on('click', {answer: no}, checkWin);
   };
 
-// var checkWin = function (event) { // Listens to find if
-//   // the "Yes", "Partial" or "No" buttons were clicked and
-//   // feeds that information to match() to determine if "win".
-//   console.log ("you clicked: " + event.data.answer);
-//   if (event.data.answer == match ()) {
-//     console.log ("Yeah you win!");
-//     var matchDisplay= $('match_display'); // select div that will display win or lose message after each Move
-//     matchDisplay.empty(); // clean the div from the display of previous Move
-//     var matchDisplayContent = $('<p>').addClass('result_display');
-//     matchDisplayContent.innerHTML = "WIN"; // the square is ASCII for ✔️
-//   } else {
-//     var matchDisplay= $('match_display'); // select div that will display win or lose message after each Move
-//     matchDisplay.empty(); // clean the div from the display of previous Move
-//     var matchDisplayContent = $('<p>').addClass('result_display');
-//     matchDisplayContent.innerHTML = "LOSE";
-//   }
-// };
-
 var yes = 'yes';
 var partial = 'partial';
 var no = 'no';
@@ -43,6 +25,7 @@ var checkWin = function (event) { // compares user's input with correct answer t
     console.log ("LOSS");
     $('.result').append( "X");
   }
+  makeCard();
 };
 
 var startGame = function () {
@@ -62,20 +45,33 @@ var makeCard = function () {
     // in the Game's first level only the shapes are randomly generated,
     // so each color is fixed to a specific shape.  That is, the cards will
     // only show red circle, blue square, green XXXcircle or yellow XXXsquare
-  var color = giveColor(); // assignment of random color
+  var color = giveColor(); // assignment of random color using function
+  console.log (color_index[color]);
   var newCardData = [color,shape]; // store color & shape properties in array
-  // add class of color number to newCard div  // pending as perhaps not required
-  // add class of shape number to newCard div // pending as perhaps not required
+  console.log (newCardData);
   container2.empty(); // clean all the content of the div that will hold the Card
-  // $( '.container2').empty(); // clean all
-  //document.getElementById(elementID).innerHTML = "";
-  var newCard = $('<div>').addClass(shape_index[shape]); // create a new div and add the class of 'shape'
-  newCard.css('background-color', color_index[color]); //set the background color of that div
-  newCard.appendTo(container2); // Append the Card to the Container2
-  console.log ("newCardData is " + newCardData);
-  cardLog.push(newCardData); // update the array with history of cards with the new card data
-  console.log ("new cardLog is " + cardLog);
-  match (); // ?? do i need to run it at this specific point
+  if (newCardData[1]==2) {  // if shape == triangle, then follow different steps to draw it with CSS
+      var newCard = $('<div>').addClass(shape_index[shape]); // create a new div and add the class of 'shape'
+      // this is because of the way that CSS draws triangles
+      newCard.css('background-color', 'white'); //set the background color of that div to white to match the div background
+      newCard.css('border-bottom-color', 'purple');
+      newCard.appendTo(container2); // Append the Card to the Container2
+      // newCard.css('border-bottom', '225 px solid purple');
+      // newCard.style.borderBottom = '225 px solid yellow';
+      // var triangle = $('.triangle');
+      // triangle.style.borderBottom = "225px solid purple";
+	     // border-bottom: 225px solid black;
+      // document.getElementById(id).style.property=new style
+
+  } else {
+      var newCard = $('<div>').addClass(shape_index[shape]); // create a new div and add the class of 'shape'
+      newCard.css('background-color', color_index[color]); //set the background color of that div
+      newCard.appendTo(container2); // Append the Card to the Container2
+      console.log ("newCardData is " + newCardData);
+      cardLog.push(newCardData); // update the array with history of cards with the new card data
+      console.log ("new cardLog is " + cardLog);
+      // match (); // ?? do i need to run it at this specific point
+    }
 };
 
 var giveColor = function () { // generates a random color
@@ -123,3 +119,21 @@ var score = function () {
 
 var timer = function () {
 };
+
+// var checkWin = function (event) { // Listens to find if
+//   // the "Yes", "Partial" or "No" buttons were clicked and
+//   // feeds that information to match() to determine if "win".
+//   console.log ("you clicked: " + event.data.answer);
+//   if (event.data.answer == match ()) {
+//     console.log ("Yeah you win!");
+//     var matchDisplay= $('match_display'); // select div that will display win or lose message after each Move
+//     matchDisplay.empty(); // clean the div from the display of previous Move
+//     var matchDisplayContent = $('<p>').addClass('result_display');
+//     matchDisplayContent.innerHTML = "WIN"; // the square is ASCII for ✔️
+//   } else {
+//     var matchDisplay= $('match_display'); // select div that will display win or lose message after each Move
+//     matchDisplay.empty(); // clean the div from the display of previous Move
+//     var matchDisplayContent = $('<p>').addClass('result_display');
+//     matchDisplayContent.innerHTML = "LOSE";
+//   }
+// };
