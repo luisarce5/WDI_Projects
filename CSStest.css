@@ -1,0 +1,95 @@
+#master_box {
+  width: 1200px;
+  height: 950px;
+  margin: 150px auto;
+  border: 5px black solid;
+  background-color: red;
+  overflow: hidden;
+  display: block;
+}
+
+.container1{
+  width: 320px;
+  height: 350px;
+  border: black solid 3px;
+  margin: 50px 75px 25px 175px;
+  display: inline-block;
+  background-color: blue;
+  float: left;
+}
+
+.container2{
+  width: 320px;
+  height: 350px;
+  border: black solid 3px;
+  margin: 50px 175px 25px 75px;
+  display: inline-block;
+  background-color: green;
+  float: right;
+}
+
+.top_row{
+  height: 75px;
+  width: 300px;
+  position: relative;
+  margin: 25px auto;
+}
+
+.top_row_inbox{
+  border: 5px solid black;
+  height: 50px;
+  width: 150px;
+  text-align: center;
+  margin: 25px 85px 10px 85px;
+  padding: 15px 30px 15px 30px;
+  display: inline-block;
+  font-size: 25px;
+  /* float: left; */
+}
+
+.text_box {
+  font-size: 30px;
+  width: 500px;
+  height: 100px;
+  padding: 15px 10px 15px 10px;
+  margin: 25px auto;
+  border: 3px solid black;
+  background-color: white;
+  /*margin: 0px; auto;
+  border: 2px black;*/
+}
+
+.timer {
+  background-color: gray;
+}
+
+.score {
+  background-color: orange;
+}
+
+.bonus {
+  background-color: purple;
+}
+
+.circle {
+	width: 225px;
+	height: 225px;
+	border-radius: 100%;
+	margin: 55px auto;
+}
+
+.square {
+	width: 225px;
+	height: 225px;
+	margin: 55px auto;
+	border-radius: 5px;
+}
+
+.triangle {
+  width: 0;
+	height: 0;
+  margin: 55px;
+	border-left: 50px solid transparent;
+	border-right: 50px solid transparent;
+	border-bottom: 100px solid red;
+}
