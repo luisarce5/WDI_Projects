@@ -51,17 +51,12 @@ var makeCard = function () {
   console.log (newCardData);
   container2.empty(); // clean all the content of the div that will hold the Card
   if (newCardData[1]==2) {  // if shape == triangle, then follow different steps to draw it with CSS
+      console.log(newCardData[1]);
       var newCard = $('<div>').addClass(shape_index[shape]); // create a new div and add the class of 'shape'
       // this is because of the way that CSS draws triangles
       newCard.css('background-color', 'white'); //set the background color of that div to white to match the div background
-      newCard.css('border-bottom-color', 'purple');
-      newCard.appendTo(container2); // Append the Card to the Container2
-      // newCard.css('border-bottom', '225 px solid purple');
-      // newCard.style.borderBottom = '225 px solid yellow';
-      // var triangle = $('.triangle');
-      // triangle.style.borderBottom = "225px solid purple";
-	     // border-bottom: 225px solid black;
-      // document.getElementById(id).style.property=new style
+      newCard.css('border-bottom-color', color_index[color]);
+      newCard.appendTo(container2); // Append the Card to the Container
 
   } else {
       var newCard = $('<div>').addClass(shape_index[shape]); // create a new div and add the class of 'shape'
