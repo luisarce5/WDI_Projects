@@ -113,28 +113,28 @@ var match = function () {
 }; // the first time Match is run at the Game start,
 
 var score = function (result) { // check the match result and update scoreBoard accordingly
-  var scoreDisplay = $('.score_box'); // selects the div displaying the scoreBoard
-  scoreDisplay.empty (); // cleans the scoreBoard to update it with the new score
+  // NOT USED // var scoreDisplay = $('.score_box>p:first').html(); // selects the div displaying the scoreBoard
+  // NIT USED //scoreDisplay.empty (); // cleans the scoreBoard to update it with the new score
   if (result == true) {
       scoreBoard = scoreBoard + 100;
       console.log (scoreBoard);
-      scoreDisplay.append("Score:  " + scoreBoard); // updates the scoreBoard with new score
+      $('.score_box>p:first').html(scoreBoard); // selects the div displaying the scoreBoard and updates it
   } else {
       scoreBoard = scoreBoard;
       console.log (scoreBoard);
-      scoreDisplay.append("Score:  " + scoreBoard); //
-  }
+      $('.score_box>p:first').html(scoreBoard);;
+  };
 };
 
 var startTimer = function () {
   console.log ("timer started");
   timerHandle = setInterval(function() {
-    var currentTime = Number($('.timer').textContent);
+    var currentTime = Number ($('.timer>p:first').html());
     currentTime++; // Number converts string to number
     // retrieves intial value inside 'timer' which is "0" as per HTML
-    $('.timer').textContent = currentTime;
+    $('.timer>p:first').html(currentTime);
     // replaces the displayed value of previous currenTime with new currentTime
-  }, 1000); // every 1,000 miliseconds = 1 second
+  }, 500); // every 1,000 miliseconds = 1 second
 };
 
 // var checkWin = function (event) { // Listens to find if
