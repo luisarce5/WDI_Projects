@@ -111,12 +111,16 @@ var match = function () {
 }; // the first time Match is run at the Game start,
 
 var score = function (result) { // check the match result and update scoreBoard accordingly
+  var scoreDisplay = $('.score_box'); // selects the div displaying the scoreBoard
+  scoreDisplay.empty (); // cleans the scoreBoard to update it with the new score
   if (result == true) {
       scoreBoard = scoreBoard + 100;
       console.log (scoreBoard);
+      scoreDisplay.append("Score:  " + scoreBoard); // updates the scoreBoard with new score
   } else {
       scoreBoard = scoreBoard;
       console.log (scoreBoard);
+      scoreDisplay.append("Score:  " + scoreBoard); //
   }
 };
 

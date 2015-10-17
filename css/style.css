@@ -23,10 +23,10 @@ p {
 .top_row_inboxes{
   border: 5px solid black;
   height: 50px;
-  width: 150px;
+  width: 240px;
   text-align: center;
-  margin: 25px 85px 10px 85px;
-  padding: 15px 30px 15px 30px;
+  margin: 25px 50px 10px 50px;
+  padding: 15px 10px 15px 10px;
   display: inline-block;
   font-size: 25px;
 }
@@ -84,7 +84,7 @@ p {
   background-color: gray;
 }
 
-.score {
+.score_box {
   background-color: orange;
 }
 
