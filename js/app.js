@@ -1,10 +1,10 @@
-window.onload = function () {
+window.onload = function () { // load your event listeners
   console.log ("HTML file linked to JavaScript file");
   $('#button1').on('click', makeCard);
   $('#button2').on('click', {answer: yes}, checkWin);
   $('#button3').on('click', {answer: partial}, checkWin);
   $('#button4').on('click', {answer: no}, checkWin);
-  };
+};
 
 var yes = 'yes';
 var partial = 'partial';
@@ -44,6 +44,8 @@ var cardLog = [];
 // cardLog array => each index number contains color and shape
 
 var makeCard = function () { // crates and displays a new card on each move
+  console.log ("makeCard function called");
+  startTimer();
   console.log ("previous cardLog is " + cardLog);
   var container2 = $('.container2'); // select the div that will hold the Card
   var shape = giveShape(); // assignment of random shape
@@ -124,7 +126,15 @@ var score = function (result) { // check the match result and update scoreBoard 
   }
 };
 
-var timer = function () {
+var startTimer = function () {
+  console.log ("timer started");
+  timerHandle = setInterval(function() {
+    var currentTime = Number($('.timer').textContent);
+    currentTime++; // Number converts string to number
+    // retrieves intial value inside 'timer' which is "0" as per HTML
+    $('.timer').textContent = currentTime;
+    // replaces the displayed value of previous currenTime with new currentTime
+  }, 1000); // every 1,000 miliseconds = 1 second
 };
 
 // var checkWin = function (event) { // Listens to find if
