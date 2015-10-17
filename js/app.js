@@ -1,9 +1,9 @@
 window.onload = function () { // load your event listeners
   console.log ("HTML file linked to JavaScript file");
-  $('#button1').on('click', makeCard);
-  $('#button2').on('click', {answer: yes}, checkWin);
-  $('#button3').on('click', {answer: partial}, checkWin);
-  $('#button4').on('click', {answer: no}, checkWin);
+  $('#button_start').on('click', startGame); // listens for player to click 'Start' game button
+  $('#button_yes').on('click', {answer: yes}, checkWin); // listens for player to click 'yes'
+  $('#button_partial').on('click', {answer: partial}, checkWin); // listens for player to click 'partial'
+  $('#button_no').on('click', {answer: no}, checkWin); // listens for player to click 'no'
 };
 
 var yes = 'yes';
@@ -11,41 +11,23 @@ var partial = 'partial';
 var no = 'no';
 var result = null; // initialize variable with match result [win (true) or lose (false)] as empty
 var scoreBoard = 0; // initialize score as zero
-
-var checkWin = function (event) { // compares user's input with correct answer to check for Win
-  console.log ("you clicked: " + event.data.answer);
-  console.log (match());
-  var matchDisplay= $('.match_display'); // select div that will display win or lose message after each Move
-  matchDisplay.empty(); // inside div, clean display from previous Move
-  var matchDisplayContent = $('<p>').addClass('result'); // add <p> to display
-  matchDisplayContent.appendTo(matchDisplay); // append the new div to matchDisplay div
-
-  if (event.data.answer == match()) {
-    console.log ("WIN");
-    result = true; // assigns value of true if win
-    score(result); // call function to update the scoreBoard
-    $('.result').append( "&#x2713;");//&#x2713 = check mark;
-  } else {
-    console.log ("LOSS");
-    result = false;
-    score(result);
-    $('.result').append( "X");
-  };
-  makeCard();
-};
-
-var startGame = function () {
-};
-
 var color_index = ['red','blue','green','yellow'];
 var shape_index = ['circle','square','triangle','diamond'];
-var cardLog = [];
-//  will store the properties (color & shape) of the cards displayed since Game Start
-// cardLog array => each index number contains color and shape
+var cardLog = []; //  will store the properties (color & shape) of the cards displayed since game start
+// cardLog array => each index element contains color and shape
+
+var startGame = function () {
+  startTimer(); // start timer
+  makeCard(); // calls makeCard to create & display the 1st card
+  setTimeout(makeCard, 2000);
+  // calls makeCard () to create & display the 2nd card after X seconds.
+  // thereafter, a new Card will only be displayed after receiving the player's input click about
+  // whether they think there was a a complete match (yes), partial match (partial) or no match (no)
+};
 
 var makeCard = function () { // crates and displays a new card on each move
   console.log ("makeCard function called");
-  startTimer();
+  // startTimer();
   console.log ("previous cardLog is " + cardLog);
   var container2 = $('.container2'); // select the div that will hold the Card
   var shape = giveShape(); // assignment of random shape
@@ -72,6 +54,28 @@ var makeCard = function () { // crates and displays a new card on each move
     console.log ("new cardLog is " + cardLog);
 };
 
+var checkWin = function (event) { // compares user's input with correct answer to check for Win
+  console.log ("you clicked: " + event.data.answer);
+  console.log (match());
+  var matchDisplay= $('.match_display'); // select div that will display win or lose message after each Move
+  matchDisplay.empty(); // inside div, clean display from previous Move
+  var matchDisplayContent = $('<p>').addClass('result'); // add <p> to display
+  matchDisplayContent.appendTo(matchDisplay); // append the new div to matchDisplay div
+
+  if (event.data.answer == match()) {
+    console.log ("WIN");
+    result = true; // assigns value of true if win
+    score(result); // call function to update the scoreBoard
+    $('.result').append( "&#x2713;");//&#x2713 = check mark symbol;
+  } else {
+    console.log ("LOSS");
+    result = false;
+    score(result);
+    $('.result').append( "X");
+  };
+  makeCard(); // calls makeCard to create and display the following card
+};
+
 var giveColor = function () { // generates a random color
   color_number = Math.floor(Math.random() * color_index.length);
   return color_number;
@@ -92,8 +96,7 @@ var move = function () {
 };
 
 var match = function () {
-// checks if the newly generated random Card
-// matches the previously displayed random Card
+// checks if the newly generated random Card  matches the previously displayed random Card
 // 'Complete' Match: shape and color both match
 // 'Partial' Match: either shapes match or colors match
   var lastCard = cardLog[cardLog.length-1];
@@ -112,7 +115,7 @@ var match = function () {
   };
 }; // the first time Match is run at the Game start,
 
-var score = function (result) { // check the match result and update scoreBoard accordingly
+var score = function (result) { // checks the Match result and updates scoreBoard accordingly
   // NOT USED // var scoreDisplay = $('.score_box>p:first').html(); // selects the div displaying the scoreBoard
   // NIT USED //scoreDisplay.empty (); // cleans the scoreBoard to update it with the new score
   if (result == true) {
@@ -126,7 +129,7 @@ var score = function (result) { // check the match result and update scoreBoard 
   };
 };
 
-var startTimer = function () {
+var startTimer = function () { // starts timer
   console.log ("timer started");
   timerHandle = setInterval(function() {
     var currentTime = Number ($('.timer>p:first').html());
@@ -134,7 +137,7 @@ var startTimer = function () {
     // retrieves intial value inside 'timer' which is "0" as per HTML
     $('.timer>p:first').html(currentTime);
     // replaces the displayed value of previous currenTime with new currentTime
-  }, 500); // every 1,000 miliseconds = 1 second
+  }, 1000); // every 1,000 miliseconds = 1 second
 };
 
 // var checkWin = function (event) { // Listens to find if
