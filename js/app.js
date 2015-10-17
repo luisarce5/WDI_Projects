@@ -9,6 +9,8 @@ window.onload = function () {
 var yes = 'yes';
 var partial = 'partial';
 var no = 'no';
+var result = null; // initialize variable with match result [win (true) or lose (false)] as empty
+var scoreBoard = 0; // initialize score as zero
 
 var checkWin = function (event) { // compares user's input with correct answer to check for Win
   console.log ("you clicked: " + event.data.answer);
@@ -20,11 +22,15 @@ var checkWin = function (event) { // compares user's input with correct answer t
 
   if (event.data.answer == match()) {
     console.log ("WIN");
+    result = true; // assigns value of true if win
+    score(result); // call function to update the scoreBoard
     $('.result').append( "&#x2713;");//&#x2713 = check mark;
   } else {
     console.log ("LOSS");
+    result = false;
+    score(result);
     $('.result').append( "X");
-  }
+  };
   makeCard();
 };
 
@@ -37,7 +43,7 @@ var cardLog = [];
 //  will store the properties (color & shape) of the cards displayed since Game Start
 // cardLog array => each index number contains color and shape
 
-var makeCard = function () {
+var makeCard = function () { // crates and displays a new card on each move
   console.log ("previous cardLog is " + cardLog);
   var container2 = $('.container2'); // select the div that will hold the Card
   var shape = giveShape(); // assignment of random shape
@@ -48,25 +54,20 @@ var makeCard = function () {
   var color = giveColor(); // assignment of random color using function
   console.log (color_index[color]);
   var newCardData = [color,shape]; // store color & shape properties in array
-  console.log (newCardData);
   container2.empty(); // clean all the content of the div that will hold the Card
+  var newCard = $('<div>').addClass(shape_index[shape]); // create a new div and add the class of 'shape'
   if (newCardData[1]==2) {  // if shape == triangle, then follow different steps to draw it with CSS
-      console.log(newCardData[1]);
-      var newCard = $('<div>').addClass(shape_index[shape]); // create a new div and add the class of 'shape'
-      // this is because of the way that CSS draws triangles
+    // this is because of the way that CSS draws triangles
       newCard.css('background-color', 'white'); //set the background color of that div to white to match the div background
       newCard.css('border-bottom-color', color_index[color]);
       newCard.appendTo(container2); // Append the Card to the Container
-
   } else {
-      var newCard = $('<div>').addClass(shape_index[shape]); // create a new div and add the class of 'shape'
       newCard.css('background-color', color_index[color]); //set the background color of that div
       newCard.appendTo(container2); // Append the Card to the Container2
-      console.log ("newCardData is " + newCardData);
-      cardLog.push(newCardData); // update the array with history of cards with the new card data
-      console.log ("new cardLog is " + cardLog);
-      // match (); // ?? do i need to run it at this specific point
     }
+    console.log ("newCardData is " + newCardData);
+    cardLog.push(newCardData); // update the array with history of cards with the new card data
+    console.log ("new cardLog is " + cardLog);
 };
 
 var giveColor = function () { // generates a random color
@@ -81,6 +82,7 @@ var giveShape = function () { // generates a random shape
 
 var move = function () {
   makeCard ();
+  // I think I do NOT need it anymore as the info is passed thru the checkWin function
   // Player indicates if the card matches preceding card
   // Check for Match
   // Update Score
@@ -108,8 +110,14 @@ var match = function () {
   };
 }; // the first time Match is run at the Game start,
 
-
-var score = function () {
+var score = function (result) { // check the match result and update scoreBoard accordingly
+  if (result == true) {
+      scoreBoard = scoreBoard + 100;
+      console.log (scoreBoard);
+  } else {
+      scoreBoard = scoreBoard;
+      console.log (scoreBoard);
+  }
 };
 
 var timer = function () {
