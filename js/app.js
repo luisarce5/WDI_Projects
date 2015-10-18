@@ -18,6 +18,8 @@ var bonusDisplay = 0; // initializing; will increase by one each time there are 
                       // goes up to 4; will reset to zero after one wrong move or after 4 consecutive right moves
                       // if reset after 4 consecutive right moves, then bonusCounter increases by one
 var bonusCounter = 0; // intitalizing; keeps tracks of number of cycles of 4 consecutive right moves
+var addBonusPoints = false; // intializing to false; will be true after 4 consecutive right moves
+                            //if true on a move bonus points will be added to score on that moveß
 var color_index = ['red','blue','green','yellow']; // define colors for cards
 var shape_index = ['circle','square','triangle','diamond']; // define shapes used for cards
 var timerSeconds = (31*1000); // sets game timer to 61 seconds
@@ -50,7 +52,6 @@ var makeCard = function () { // crates and displays a new card on each move
     // so each color is fixed to a specific shape.  That is, the cards will
     // only show red circle, blue square, green XXXcircle or yellow XXXsquare
   var color = giveColor(); // assignment of random color using function
-  console.log (color_index[color]);
   var newCardData = [color,shape]; // store color & shape properties in array
   container2.empty(); // clean all the content of the div that will hold the Card
   var newCard = $('<div>').addClass(shape_index[shape]); // create a new div and add the class of 'shape'
@@ -75,32 +76,38 @@ var checkWin = function (event) { // compares player's input with correct answer
   matchDisplay.empty(); // in that div, clean display from previous Move
   var matchDisplayContent = $('<p>').addClass('result'); // add <p> to the display
   matchDisplayContent.appendTo(matchDisplay); // append the new <p> to matchDisplay div
+
   if (event.data.answer == match() ) {  // if player's input is right =>
     correctMoves += 1; // increase correctMoves counter
     console.log ("number correctMoves is: " + correctMoves);
     console.log ("WIN");
     result = true; // assign value of true if right move which is passed to score()
-    score(result); // call function to update the scoreBoard
     $('.result').append( "&#x2713;");//&#x2713 = 'check mark' symbol; displays 'check mark' after right move
+
     if (bonusDisplay == 0) { // if bonusDisplay is zero, then
       $('#bonus_number').empty();// empty the text inside the bonus <p>, to erase either the initial '----'
                                 // or the previous bonus bullet points earned
     };
+
     bonusDisplay += 1; // if right move increase bonusDisplay
     console.log ("bonusDisplay is: " + bonusDisplay);
     $('.bonus>p:first').append("&#149&nbsp;"); // select first <p> within div class 'bonus' and append bullet point
+    console.log (addBonusPoints);
     if (bonusDisplay == 4) { // check for 4 consecutive right moves
-      bonusCounter += 1; // increase bonusCount by one after 4 consecutive right moves
-      bonusDisplay = 0; // reset bonusDisplay to zero after 4 right moves
-      console.log ("bonusCount is: " + bonusCounter);
-      console.log ("bonusCount is: " + bonusDisplay);
+        addBonusPoints = true; // add bonus points once there have been 4 consecutive moves
+        bonusCounter += 1; // increase bonusCount by one after 4 consecutive right moves
+        bonusDisplay = 0; // reset bonusDisplay to zero after 4 right moves
+        console.log ("bonusCount is: " + bonusCounter);
+        console.log ("bonusCount is: " + bonusDisplay);
     };
+    score(result, addBonusPoints); // call function to update the scoreBoard
   } else { // if player's input is wrong =>
-    console.log ("LOSS");
-    result = false; // assigns value of false if wrong move
-    score(result);
-    $('.result').append( "X"); // displays 'X' after wrong move
-    bonusDisplay = 0; // if wrong move reset bonusDiplay to zero
+      console.log ("LOSS");
+      result = false; // assigns value of false if wrong move
+      addBonusPoints = false;
+      $('.result').append( "X"); // displays 'X' after wrong move
+      bonusDisplay = 0; // if wrong move reset bonusDiplay to zero
+      score(result, addBonusPoints); // call function to update the scoreBoard
   };
   accuracy = ((correctMoves / (cardsDisplayed -1))*100).toFixed(2); // % of correctMoves. Used (cardsDisplayed - 1) since first card displayed is not evaluated
   makeCard(); // calls makeCard to create and display the following card
@@ -136,12 +143,20 @@ var match = function () {
   };
 }; // the first time Match is run at the Game start,
 
-var score = function (result) { // checks the Match result and updates scoreBoard accordingly
+var score = function (result, addBonusPoints) { // checks the Match result and updates scoreBoard accordingly
   // NOT USED // var scoreDisplay = $('.score_box>p:first').html(); // selects the div displaying the scoreBoard
   // NOT USED //scoreDisplay.empty (); // cleans the scoreBoard to update it with the new score
+  console.log ("score function called");
+  console.log ("addBonusPoints inside score() = " + addBonusPoints);
+  console.log ("previous score board is " + scoreBoard);
   if (result == true) {
-      scoreBoard = scoreBoard + 100;
-      console.log (scoreBoard);
+      scoreBoard = scoreBoard + 100; // if right Move add 100 pts to scoreBoard
+      console.log ("scoreBoard after adding 100: " + scoreBoard);
+      if (addBonusPoints == true) { // if 4 consecutive right moves, add 500 pts to scoreBoard
+        scoreBoard = scoreBoard + 500;
+        console.log ("scoreBoard after adding 500: " + scoreBoard);
+      };
+      addBonusPoints = false; // reset addBonusPoints to false after adding bonus points to score
       $('.score_box>p:first').html(scoreBoard); // selects the div displaying the scoreBoard and updates it
   } else {
       scoreBoard = scoreBoard;
@@ -221,16 +236,6 @@ var placeNewBoard = function () { // places a new Board with original properties
   };
 };
 
-
-
-var move = function () {
-  makeCard ();
-  // I think I do NOT need it anymore as the info is passed thru the checkWin function
-  // Player indicates if the card matches preceding card
-  // Check for Match
-  // Update Score
-  // Update Board indicating Match result
-};
 //                               null
 //                .on( events [, selector ] [, data ], handler )
 // $('#button_no').on('click',              {answer: no}, checkWin);
