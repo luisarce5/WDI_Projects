@@ -6,11 +6,14 @@ window.onload = function () { // load your event listeners
   $('#button_no').on('click', {answer: no}, checkWin); // listens for player to click 'no'
 };
 
-var yes = 'yes';
-var partial = 'partial';
-var no = 'no';
+var yes = 'yes'; // variable used as a value in object in event listener and as input in match ()
+var partial = 'partial'; // variable used as a value in object in event listener and as input in match ()
+var no = 'no'; // variable used as a value in object in event listener and as input in match ()
 var result = null; // initialize variable with match result [win (true) or lose (false)] as empty
 var scoreBoard = 0; // initialize score as zero
+var cardsDisplayed = 0; // initialize the number of Cards displayed
+var correctMoves = 0; // intialize the number of correct moves
+var accuracy = 0; // initialize accuracy % as zero
 var color_index = ['red','blue','green','yellow'];
 var shape_index = ['circle','square','triangle','diamond'];
 var cardLog = []; //  will store the properties (color & shape) of the cards displayed since game start
@@ -23,9 +26,12 @@ var startGame = function () {
   // calls makeCard () to create & display the 2nd card after X seconds.
   // thereafter, a new Card will only be displayed after receiving the player's input click about
   // whether they think there was a a complete match (yes), partial match (partial) or no match (no)
+  endGame ();
 };
 
 var makeCard = function () { // crates and displays a new card on each move
+  cardsDisplayed += 1;
+  console.log ("cardsDisplayed is: " + cardsDisplayed);
   console.log ("makeCard function called");
   // startTimer();
   console.log ("previous cardLog is " + cardLog);
@@ -63,6 +69,8 @@ var checkWin = function (event) { // compares user's input with correct answer t
   matchDisplayContent.appendTo(matchDisplay); // append the new div to matchDisplay div
 
   if (event.data.answer == match()) {
+    correctMoves += 1;
+    console.log ("number correctMoves is: " + correctMoves);
     console.log ("WIN");
     result = true; // assigns value of true if win
     score(result); // call function to update the scoreBoard
@@ -73,6 +81,7 @@ var checkWin = function (event) { // compares user's input with correct answer t
     score(result);
     $('.result').append( "X");
   };
+  accuracy = correctMoves / (cardsDisplayed -1); // % of correctMoves. Used (cardsDisplayed - 1) since first card displayed is not evaluated
   makeCard(); // calls makeCard to create and display the following card
 };
 
@@ -130,7 +139,7 @@ var score = function (result) { // checks the Match result and updates scoreBoar
 };
 
 var startTimer = function () { // starts timer
-  console.log ("timer started");
+  console.log ('timer started');
   timerHandle = setInterval(function() {
     var currentTime = Number ($('.timer>p:first').html());
     currentTime++; // Number converts string to number
@@ -139,6 +148,32 @@ var startTimer = function () { // starts timer
     // replaces the displayed value of previous currenTime with new currentTime
   }, 1000); // every 1,000 miliseconds = 1 second
 };
+
+var endGame = function () {  // ends the game after X seconds and displays board with game peformance statistics
+  console.log('endGame function called');
+  var textBox = $('.text_box');
+  textBox.empty(); // empty the div class 'text-box'
+  var textBoxContent = $('<p>').addClass('Game_Over_Message');
+  textBoxContent.appendTo(textBox);
+  $('.Game_Over_Message').append( "GAME OVER");
+  var game_over_holder = $('.container_holder');
+  game_over_holder.empty(); // empty the div class 'container_holder'
+  game_over_holder.css('background-color', 'white')
+  var containerTextContent = $('<p>').addClass('statistics');
+  containerTextContent.appendTo(game_over_holder);
+  $('.statistics').append('Your Game statistics are: ' + '<br /> <br />');
+  $('.statistics').append('Accuracy: &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp' + (accuracy*100) +' %' + '<br />');
+  $('.statistics').append('Cards displayed: ' + cardsDisplayed+'<br />');
+  $('.statistics').append('Correct moves: &nbsp&nbsp&nbsp' + correctMoves +'<br />');
+};
+
+// var content = element.innerHTML;
+// element.innerHTML = content;
+
+// endGame();
+  // replace the div class 'text_box' with " Game Over // Game statics are as follows:... "
+  // place game performance statics in the div container holder
+  // disactivate yes, partial and no buttons
 
 // var checkWin = function (event) { // Listens to find if
 //   // the "Yes", "Partial" or "No" buttons were clicked and
