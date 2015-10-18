@@ -236,6 +236,10 @@ var placeNewBoard = function () { // places a new Board with original properties
   };
 };
 
+
+
+
+
 //                               null
 //                .on( events [, selector ] [, data ], handler )
 // $('#button_no').on('click',              {answer: no}, checkWin);
