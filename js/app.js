@@ -185,9 +185,8 @@ var endGame = function () {  // ends the game after X seconds and displays board
   var containerTextContent = $('<p>').addClass('statistics');
   containerTextContent.appendTo(game_over_holder);
   $('.statistics').append('Your Game statistics are: ' + '<br /> <br />');
-  $('.statistics').append('lastcard: &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp' + (accuracy) +' %' + '<br />');
+  $('.statistics').append('Accuracy: &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp' + (accuracy) +' %' + '<br />');
   $('.statistics').append('Cards displayed: ' + cardsDisplayed+'<br />');
-  $('.statistics').append('Correct moves: &nbsp&nbsp&nbsp' + correctMoves +'<br />');
   $('.statistics').append('Correct moves: &nbsp&nbsp&nbsp' + correctMoves +'<br />');
   $('.statistics').append('Avg response time: ' + avgResponseTime + " cards/second");
   $('#button_yes').off('click', checkWin); // disactivate event listener for button
