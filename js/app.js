@@ -16,13 +16,14 @@ var correctMoves = 0; // intialize the number of correct moves
 var accuracy = 0; // initialize accuracy %
 var color_index = ['red','blue','green','yellow']; // define colors for cards
 var shape_index = ['circle','square','triangle','diamond']; // define shapes used for cards
-var timerSeconds = (6*1000); // sets game timer to 61 seconds
+var timerSeconds = (4*1000); // sets game timer to 61 seconds
 var avgResponseTime = 0; // initialize average response time
 var cardLog = []; //  will store the properties (color & shape) of the cards displayed since game start
 // cardLog array => each index element contains color and shape
 // with this array, the code can be later modified to allow evaluation of match to any n-x cards not only n-1 as currently
 
 var startGame = function () {
+  placeNewBoard(); // places a new board if a game is started after a previous Game Over
   startTimer(); // start timer
   makeCard(); // calls makeCard to create & display the 1st card
   setTimeout(makeCard, 2000);
@@ -146,7 +147,7 @@ var startTimer = function () { // starts timer
   timerHandle = setInterval(function() {
     var currentTime = Number ($('.timer>p:first').html());
     currentTime++; // Number converts string to number
-    // retrieves intial value inside 'timer' which is "0" as per HTML
+    // retrieves initial value inside 'timer' which is "0" as per HTML
     $('.timer>p:first').html(currentTime);
     // replaces the displayed value of previous currenTime with new currentTime
   }, 1000); // every 1,000 miliseconds = 1 second
@@ -161,19 +162,14 @@ var stopGame = function () {
   }, timerSeconds); // after x seconds as defined in global variables
 };
 
-
-// setTimeout(function() {
-//   console.log("Well, how do you do!");
-// }, 2000);
-
 var stopTimer = function () {
   clearInterval(timerHandle); // clearInterval() stops timerHandle, i.e. stops timer
+  // replace intial display value of timer on board
 }; //tested OK
 
 var endGame = function () {  // ends the game after X seconds and displays board with game peformance statistics
   console.log('endGame function called');
-  avgResponseTime = (cardsDisplayed/(timerSeconds/1000));
-  avgResponseTime = avgResponseTime.toFixed(2);
+  avgResponseTime = (cardsDisplayed/(timerSeconds/1000)).toFixed(2); // display 2 decimals
   var textBox = $('.text_box');
   textBox.empty(); // empty the div class 'text-box'
   var textBoxContent = $('<p>').addClass('Game_Over_Message');
@@ -193,6 +189,36 @@ var endGame = function () {  // ends the game after X seconds and displays board
   $('#button_partial').off('click', checkWin);
   $('#button_no').off('click', checkWin);
 };
+
+var placeNewBoard = function () { // places a new Board with original properties
+  // and resets variables if Game is restarted after GameOver
+  if (cardsDisplayed > 1) {
+    scoreBoard = 0; // reset score
+    cardsDisplayed = 0; //reset the number of Cards displayed
+    correctMoves = 0; // reset the number of correct moves
+    $('.timer>p:first').html('0'); // reset the value of timer as displayed on board to zero.
+    var newBoard = $('.container_holder');
+    newBoard.empty();
+    newBoard.css('background-color', "transparent");
+    var newContainer1 = $('<div>').addClass('container1');
+    newContainer1.appendTo(newBoard);
+    var newMatchDisplay = $('<div>').addClass('match_display');
+    newMatchDisplay.appendTo(newBoard);
+    var newContainer2 = $('<div>').addClass('container2');
+    newContainer2.appendTo(newBoard);
+    $('#button_yes').on('click', {answer: yes}, checkWin); // reactivate event listener because it was turned off when Game Over
+    $('#button_partial').on('click', {answer: partial}, checkWin); //
+    $('#button_no').on('click', {answer: no}, checkWin); //
+  };
+};
+
+    // newBoard.append('<div> xxxx </div>');
+//     var newCard = $('<div>').addClass(shape_index[shape]);
+//     var newCard = $('<div>').addClass(shape_index[shape]);
+//     newCard.appendTo(container2);
+//   }
+// }
+
 
 //                               null
 //                .on( events [, selector ] [, data ], handler )
