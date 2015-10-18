@@ -13,11 +13,14 @@ var result = null; // initialize variable with match result [win (true) or lose 
 var scoreBoard = 0; // initialize score as zero
 var cardsDisplayed = 0; // initialize the number of Cards displayed
 var correctMoves = 0; // intialize the number of correct moves
-var accuracy = 0; // initialize accuracy % as zero
-var color_index = ['red','blue','green','yellow'];
-var shape_index = ['circle','square','triangle','diamond'];
+var accuracy = 0; // initialize accuracy %
+var color_index = ['red','blue','green','yellow']; // define colors for cards
+var shape_index = ['circle','square','triangle','diamond']; // define shapes used for cards
+var timerSeconds = (6*1000); // sets game timer to 61 seconds
+var avgResponseTime = 0; // initialize average response time
 var cardLog = []; //  will store the properties (color & shape) of the cards displayed since game start
 // cardLog array => each index element contains color and shape
+// with this array, the code can be later modified to allow evaluation of match to any n-x cards not only n-1 as currently
 
 var startGame = function () {
   startTimer(); // start timer
@@ -155,7 +158,7 @@ var stopGame = function () {
     console.log ("setTimeout function called");
     stopTimer(); // calls stopTimer to stop timer
     endGame(); // calls endGame to show final Game Over display
-  }, 10000); // after x=10 seconds
+  }, timerSeconds); // after x seconds as defined in global variables
 };
 
 
@@ -169,6 +172,8 @@ var stopTimer = function () {
 
 var endGame = function () {  // ends the game after X seconds and displays board with game peformance statistics
   console.log('endGame function called');
+  avgResponseTime = (cardsDisplayed/(timerSeconds/1000));
+  avgResponseTime = avgResponseTime.toFixed(2);
   var textBox = $('.text_box');
   textBox.empty(); // empty the div class 'text-box'
   var textBoxContent = $('<p>').addClass('Game_Over_Message');
@@ -180,18 +185,21 @@ var endGame = function () {  // ends the game after X seconds and displays board
   var containerTextContent = $('<p>').addClass('statistics');
   containerTextContent.appendTo(game_over_holder);
   $('.statistics').append('Your Game statistics are: ' + '<br /> <br />');
-  $('.statistics').append('Accuracy: &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp' + (accuracy) +' %' + '<br />');
+  $('.statistics').append('lastcard: &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp' + (accuracy) +' %' + '<br />');
   $('.statistics').append('Cards displayed: ' + cardsDisplayed+'<br />');
   $('.statistics').append('Correct moves: &nbsp&nbsp&nbsp' + correctMoves +'<br />');
+  $('.statistics').append('Correct moves: &nbsp&nbsp&nbsp' + correctMoves +'<br />');
+  $('.statistics').append('Avg response time: ' + avgResponseTime + " cards/second");
+  $('#button_yes').off('click', checkWin); // disactivate event listener for button
+  $('#button_partial').off('click', checkWin);
+  $('#button_no').off('click', checkWin);
 };
 
-// var content = element.innerHTML;
-// element.innerHTML = content;
-
-// endGame();
-  // replace the div class 'text_box' with " Game Over // Game statics are as follows:... "
-  // place game performance statics in the div container holder
-  // disactivate yes, partial and no buttons
+//                               null
+//                .on( events [, selector ] [, data ], handler )
+// $('#button_no').on('click',              {answer: no}, checkWin);
+//
+//                .off( events [, selector ] [, handler ] )
 
 // var checkWin = function (event) { // Listens to find if
 //   // the "Yes", "Partial" or "No" buttons were clicked and
