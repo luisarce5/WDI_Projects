@@ -20,7 +20,7 @@ var bonusDisplay = 0; // initializing; will increase by one each time there are 
 var bonusCounter = 0; // intitalizing; keeps tracks of number of cycles of 4 consecutive right moves
 var color_index = ['red','blue','green','yellow']; // define colors for cards
 var shape_index = ['circle','square','triangle','diamond']; // define shapes used for cards
-var timerSeconds = (11*1000); // sets game timer to 61 seconds
+var timerSeconds = (31*1000); // sets game timer to 61 seconds
 var avgResponseTime = 0; // initialize average response time
 var cardLog = []; //  will store the properties (color & shape) of the cards displayed since game start
 // cardLog array => each index element contains color and shape
@@ -68,31 +68,34 @@ var makeCard = function () { // crates and displays a new card on each move
     console.log ("new cardLog is " + cardLog);
 };
 
-var checkWin = function (event) { // compares user's input with correct answer to check for Win
+var checkWin = function (event) { // compares player's input with correct answer to check for Win
   console.log ("you clicked: " + event.data.answer);
   console.log (match());
-  var matchDisplay= $('.match_display'); // select div that will display win or lose message after each Move
-  matchDisplay.empty(); // inside div, clean display from previous Move
-  var matchDisplayContent = $('<p>').addClass('result'); // add <p> to display
-  matchDisplayContent.appendTo(matchDisplay); // append the new div to matchDisplay div
-
-  if (event.data.answer == match() ) {
-    correctMoves += 1;
+  var matchDisplay= $('.match_display'); // select div that will display win ('check mark') or lose ('X') message after each Move
+  matchDisplay.empty(); // in that div, clean display from previous Move
+  var matchDisplayContent = $('<p>').addClass('result'); // add <p> to the display
+  matchDisplayContent.appendTo(matchDisplay); // append the new <p> to matchDisplay div
+  if (event.data.answer == match() ) {  // if player's input is right =>
+    correctMoves += 1; // increase correctMoves counter
     console.log ("number correctMoves is: " + correctMoves);
     console.log ("WIN");
-    result = true; // assigns value of true if right move
-    score(result); // calls function to update the scoreBoard
-    $('.result').append( "&#x2713;");//&#x2713 = check mark symbol; displays 'check mark' after right move
-    console.log ("Hey where are you now?");
+    result = true; // assign value of true if right move which is passed to score()
+    score(result); // call function to update the scoreBoard
+    $('.result').append( "&#x2713;");//&#x2713 = 'check mark' symbol; displays 'check mark' after right move
+    if (bonusDisplay == 0) { // if bonusDisplay is zero, then
+      $('#bonus_number').empty();// empty the text inside the bonus <p>, to erase either the initial '----'
+                                // or the previous bonus bullet points earned
+    };
     bonusDisplay += 1; // if right move increase bonusDisplay
     console.log ("bonusDisplay is: " + bonusDisplay);
-    if (bonusDisplay == 4) {
-      bonusCounter += 1; // increase bonusCount after 4 consecutive right moves
+    $('.bonus>p:first').append("&#149&nbsp;"); // select first <p> within div class 'bonus' and append bullet point
+    if (bonusDisplay == 4) { // check for 4 consecutive right moves
+      bonusCounter += 1; // increase bonusCount by one after 4 consecutive right moves
       bonusDisplay = 0; // reset bonusDisplay to zero after 4 right moves
       console.log ("bonusCount is: " + bonusCounter);
       console.log ("bonusCount is: " + bonusDisplay);
     };
-  } else {
+  } else { // if player's input is wrong =>
     console.log ("LOSS");
     result = false; // assigns value of false if wrong move
     score(result);
@@ -111,15 +114,6 @@ var giveColor = function () { // generates a random color
 var giveShape = function () { // generates a random shape
   shape_number = Math.floor(Math.random() * shape_index.length);
   return shape_number;
-};
-
-var move = function () {
-  makeCard ();
-  // I think I do NOT need it anymore as the info is passed thru the checkWin function
-  // Player indicates if the card matches preceding card
-  // Check for Match
-  // Update Score
-  // Update Board indicating Match result
 };
 
 var match = function () {
@@ -159,8 +153,9 @@ var startTimer = function () { // starts timer
   console.log ('timer started');
   timerHandle = setInterval(function() {
     var currentTime = Number ($('.timer>p:first').html());
-    currentTime++; // Number converts string to number
-    // retrieves initial value inside 'timer' which is "0" as per HTML
+    // Number () converts string to number
+    // retrieves initial value inside 'timer' which is "0" as per HTML and tnen retrieves subsequent
+    currentTime++;
     $('.timer>p:first').html(currentTime);
     // replaces the displayed value of previous currenTime with new currentTime
   }, 1000); // every 1,000 miliseconds = 1 second
@@ -227,6 +222,15 @@ var placeNewBoard = function () { // places a new Board with original properties
 };
 
 
+
+var move = function () {
+  makeCard ();
+  // I think I do NOT need it anymore as the info is passed thru the checkWin function
+  // Player indicates if the card matches preceding card
+  // Check for Match
+  // Update Score
+  // Update Board indicating Match result
+};
 //                               null
 //                .on( events [, selector ] [, data ], handler )
 // $('#button_no').on('click',              {answer: no}, checkWin);
