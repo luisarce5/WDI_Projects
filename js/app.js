@@ -23,10 +23,10 @@ var startGame = function () {
   startTimer(); // start timer
   makeCard(); // calls makeCard to create & display the 1st card
   setTimeout(makeCard, 2000);
-  // calls makeCard () to create & display the 2nd card after X seconds.
+  // calls makeCard () to create & display the 2nd card after 2 seconds.
   // thereafter, a new Card will only be displayed after receiving the player's input click about
   // whether they think there was a a complete match (yes), partial match (partial) or no match (no)
-  endGame ();
+  stopGame(); //calls function to stop Game which is based on a timer
 };
 
 var makeCard = function () { // crates and displays a new card on each move
@@ -81,7 +81,7 @@ var checkWin = function (event) { // compares user's input with correct answer t
     score(result);
     $('.result').append( "X");
   };
-  accuracy = correctMoves / (cardsDisplayed -1); // % of correctMoves. Used (cardsDisplayed - 1) since first card displayed is not evaluated
+  accuracy = Math.round((correctMoves / (cardsDisplayed -1))*100); // % of correctMoves. Used (cardsDisplayed - 1) since first card displayed is not evaluated
   makeCard(); // calls makeCard to create and display the following card
 };
 
@@ -149,6 +149,24 @@ var startTimer = function () { // starts timer
   }, 1000); // every 1,000 miliseconds = 1 second
 };
 
+var stopGame = function () {
+  console.log ("stopGame function called");
+  setTimeout(function() {
+    console.log ("setTimeout function called");
+    stopTimer(); // calls stopTimer to stop timer
+    endGame(); // calls endGame to show final Game Over display
+  }, 10000); // after x=10 seconds
+};
+
+
+// setTimeout(function() {
+//   console.log("Well, how do you do!");
+// }, 2000);
+
+var stopTimer = function () {
+  clearInterval(timerHandle); // clearInterval() stops timerHandle, i.e. stops timer
+}; //tested OK
+
 var endGame = function () {  // ends the game after X seconds and displays board with game peformance statistics
   console.log('endGame function called');
   var textBox = $('.text_box');
@@ -158,11 +176,11 @@ var endGame = function () {  // ends the game after X seconds and displays board
   $('.Game_Over_Message').append( "GAME OVER");
   var game_over_holder = $('.container_holder');
   game_over_holder.empty(); // empty the div class 'container_holder'
-  game_over_holder.css('background-color', 'white')
+  game_over_holder.css('background-color', 'RGB(0,100,250)')
   var containerTextContent = $('<p>').addClass('statistics');
   containerTextContent.appendTo(game_over_holder);
   $('.statistics').append('Your Game statistics are: ' + '<br /> <br />');
-  $('.statistics').append('Accuracy: &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp' + (accuracy*100) +' %' + '<br />');
+  $('.statistics').append('Accuracy: &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp' + (accuracy) +' %' + '<br />');
   $('.statistics').append('Cards displayed: ' + cardsDisplayed+'<br />');
   $('.statistics').append('Correct moves: &nbsp&nbsp&nbsp' + correctMoves +'<br />');
 };
