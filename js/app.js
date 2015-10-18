@@ -14,9 +14,13 @@ var scoreBoard = 0; // initialize score as zero
 var cardsDisplayed = 0; // initialize the number of Cards displayed
 var correctMoves = 0; // intialize the number of correct moves
 var accuracy = 0; // initialize accuracy %
+var bonusDisplay = 0; // initializing; will increase by one each time there are consecutive right moves;
+                      // goes up to 4; will reset to zero after one wrong move or after 4 consecutive right moves
+                      // if reset after 4 consecutive right moves, then bonusCounter increases by one
+var bonusCounter = 0; // intitalizing; keeps tracks of number of cycles of 4 consecutive right moves
 var color_index = ['red','blue','green','yellow']; // define colors for cards
 var shape_index = ['circle','square','triangle','diamond']; // define shapes used for cards
-var timerSeconds = (4*1000); // sets game timer to 61 seconds
+var timerSeconds = (11*1000); // sets game timer to 61 seconds
 var avgResponseTime = 0; // initialize average response time
 var cardLog = []; //  will store the properties (color & shape) of the cards displayed since game start
 // cardLog array => each index element contains color and shape
@@ -72,20 +76,30 @@ var checkWin = function (event) { // compares user's input with correct answer t
   var matchDisplayContent = $('<p>').addClass('result'); // add <p> to display
   matchDisplayContent.appendTo(matchDisplay); // append the new div to matchDisplay div
 
-  if (event.data.answer == match()) {
+  if (event.data.answer == match() ) {
     correctMoves += 1;
     console.log ("number correctMoves is: " + correctMoves);
     console.log ("WIN");
-    result = true; // assigns value of true if win
-    score(result); // call function to update the scoreBoard
-    $('.result').append( "&#x2713;");//&#x2713 = check mark symbol;
+    result = true; // assigns value of true if right move
+    score(result); // calls function to update the scoreBoard
+    $('.result').append( "&#x2713;");//&#x2713 = check mark symbol; displays 'check mark' after right move
+    console.log ("Hey where are you now?");
+    bonusDisplay += 1; // if right move increase bonusDisplay
+    console.log ("bonusDisplay is: " + bonusDisplay);
+    if (bonusDisplay == 4) {
+      bonusCounter += 1; // increase bonusCount after 4 consecutive right moves
+      bonusDisplay = 0; // reset bonusDisplay to zero after 4 right moves
+      console.log ("bonusCount is: " + bonusCounter);
+      console.log ("bonusCount is: " + bonusDisplay);
+    };
   } else {
     console.log ("LOSS");
-    result = false;
+    result = false; // assigns value of false if wrong move
     score(result);
-    $('.result').append( "X");
+    $('.result').append( "X"); // displays 'X' after wrong move
+    bonusDisplay = 0; // if wrong move reset bonusDiplay to zero
   };
-  accuracy = Math.round((correctMoves / (cardsDisplayed -1))*100); // % of correctMoves. Used (cardsDisplayed - 1) since first card displayed is not evaluated
+  accuracy = ((correctMoves / (cardsDisplayed -1))*100).toFixed(2); // % of correctMoves. Used (cardsDisplayed - 1) since first card displayed is not evaluated
   makeCard(); // calls makeCard to create and display the following card
 };
 
@@ -130,14 +144,13 @@ var match = function () {
 
 var score = function (result) { // checks the Match result and updates scoreBoard accordingly
   // NOT USED // var scoreDisplay = $('.score_box>p:first').html(); // selects the div displaying the scoreBoard
-  // NIT USED //scoreDisplay.empty (); // cleans the scoreBoard to update it with the new score
+  // NOT USED //scoreDisplay.empty (); // cleans the scoreBoard to update it with the new score
   if (result == true) {
       scoreBoard = scoreBoard + 100;
       console.log (scoreBoard);
       $('.score_box>p:first').html(scoreBoard); // selects the div displaying the scoreBoard and updates it
   } else {
       scoreBoard = scoreBoard;
-      console.log (scoreBoard);
       $('.score_box>p:first').html(scoreBoard);;
   };
 };
@@ -169,7 +182,7 @@ var stopTimer = function () {
 
 var endGame = function () {  // ends the game after X seconds and displays board with game peformance statistics
   console.log('endGame function called');
-  avgResponseTime = (cardsDisplayed/(timerSeconds/1000)).toFixed(2); // display 2 decimals
+  avgResponseTime = ((timerSeconds/1000)/cardsDisplayed).toFixed(2); // display 2 decimals
   var textBox = $('.text_box');
   textBox.empty(); // empty the div class 'text-box'
   var textBoxContent = $('<p>').addClass('Game_Over_Message');
@@ -184,7 +197,8 @@ var endGame = function () {  // ends the game after X seconds and displays board
   $('.statistics').append('Accuracy: &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp' + (accuracy) +' %' + '<br />');
   $('.statistics').append('Cards displayed: ' + cardsDisplayed+'<br />');
   $('.statistics').append('Correct moves: &nbsp&nbsp&nbsp' + correctMoves +'<br />');
-  $('.statistics').append('Avg response time: ' + avgResponseTime + " cards/second");
+  $('.statistics').append('Avg response: &nbsp&nbsp&nbsp&nbsp' + avgResponseTime + " seconds/card" +'<br />');
+  $('.statistics').append('Bonus count: &nbsp&nbsp&nbsp&nbsp'+ bonusCounter +'<br />');
   $('#button_yes').off('click', checkWin); // disactivate event listener for button
   $('#button_partial').off('click', checkWin);
   $('#button_no').off('click', checkWin);
@@ -212,34 +226,9 @@ var placeNewBoard = function () { // places a new Board with original properties
   };
 };
 
-    // newBoard.append('<div> xxxx </div>');
-//     var newCard = $('<div>').addClass(shape_index[shape]);
-//     var newCard = $('<div>').addClass(shape_index[shape]);
-//     newCard.appendTo(container2);
-//   }
-// }
-
 
 //                               null
 //                .on( events [, selector ] [, data ], handler )
 // $('#button_no').on('click',              {answer: no}, checkWin);
 //
 //                .off( events [, selector ] [, handler ] )
-
-// var checkWin = function (event) { // Listens to find if
-//   // the "Yes", "Partial" or "No" buttons were clicked and
-//   // feeds that information to match() to determine if "win".
-//   console.log ("you clicked: " + event.data.answer);
-//   if (event.data.answer == match ()) {
-//     console.log ("Yeah you win!");
-//     var matchDisplay= $('match_display'); // select div that will display win or lose message after each Move
-//     matchDisplay.empty(); // clean the div from the display of previous Move
-//     var matchDisplayContent = $('<p>').addClass('result_display');
-//     matchDisplayContent.innerHTML = "WIN"; // the square is ASCII for ✔️
-//   } else {
-//     var matchDisplay= $('match_display'); // select div that will display win or lose message after each Move
-//     matchDisplay.empty(); // clean the div from the display of previous Move
-//     var matchDisplayContent = $('<p>').addClass('result_display');
-//     matchDisplayContent.innerHTML = "LOSE";
-//   }
-// };
