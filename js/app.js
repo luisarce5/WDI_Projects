@@ -43,14 +43,9 @@ var makeCard = function () { // crates and displays a new card on each move
   cardsDisplayed += 1;
   console.log ("cardsDisplayed is: " + cardsDisplayed);
   console.log ("makeCard function called");
-  // startTimer();
   console.log ("previous cardLog is " + cardLog);
   var container2 = $('.container2'); // select the div that will hold the Card
   var shape = giveShape(); // assignment of random shape
-  // if (randomColor == true) {
-    // in the Game's first level only the shapes are randomly generated,
-    // so each color is fixed to a specific shape.  That is, the cards will
-    // only show red circle, blue square, green XXXcircle or yellow XXXsquare
   var color = giveColor(); // assignment of random color using function
   var newCardData = [color,shape]; // store color & shape properties in array
   container2.empty(); // clean all the content of the div that will hold the Card
@@ -64,6 +59,8 @@ var makeCard = function () { // crates and displays a new card on each move
       newCard.css('background-color', color_index[color]); //set the background color of that div
       newCard.appendTo(container2); // Append the Card to the Container2
     }
+    $('.container2').fadeOut(100).fadeIn(100); // causes the container with the card to flash each time a new Card is displayed
+    $('.container1').fadeOut(100).fadeIn(100);
     console.log ("newCardData is " + newCardData);
     cardLog.push(newCardData); // update the array with history of cards with the new card data
     console.log ("new cardLog is " + cardLog);
@@ -89,13 +86,13 @@ var checkWin = function (event) { // compares player's input with correct answer
                                 // or the previous bonus bullet points earned
     };
 
-    bonusDisplay += 1; // if right move increase bonusDisplay
+    bonusDisplay += 1; // increase bonusDisplay (which keeps track of bullet points inside Bonus box)
     console.log ("bonusDisplay is: " + bonusDisplay);
     $('.bonus>p:first').append("&#149&nbsp;"); // select first <p> within div class 'bonus' and append bullet point
     console.log (addBonusPoints);
     if (bonusDisplay == 4) { // check for 4 consecutive right moves
-        addBonusPoints = true; // add bonus points once there have been 4 consecutive moves
-        bonusCounter += 1; // increase bonusCount by one after 4 consecutive right moves
+        addBonusPoints = true; // add bonus points boolean once there have been 4 consecutive moves which is passed to score()
+        bonusCounter += 1; // increase bonusCounter by one after 4 consecutive right moves
         bonusDisplay = 0; // reset bonusDisplay to zero after 4 right moves
         console.log ("bonusCount is: " + bonusCounter);
         console.log ("bonusCount is: " + bonusDisplay);
@@ -107,8 +104,10 @@ var checkWin = function (event) { // compares player's input with correct answer
       addBonusPoints = false;
       $('.result').append( "X"); // displays 'X' after wrong move
       bonusDisplay = 0; // if wrong move reset bonusDiplay to zero
+      $("#bonus_number").text("-"); // reset the bonus box display
       score(result, addBonusPoints); // call function to update the scoreBoard
   };
+  $('.match_display').fadeOut(100).fadeIn(100); // causes the container with the match display to flash each time the player responds
   accuracy = ((correctMoves / (cardsDisplayed -1))*100).toFixed(2); // % of correctMoves. Used (cardsDisplayed - 1) since first card displayed is not evaluated
   makeCard(); // calls makeCard to create and display the following card
 };
@@ -208,7 +207,7 @@ var endGame = function () {  // ends the game after X seconds and displays board
   $('.statistics').append('Cards displayed: ' + cardsDisplayed+'<br />');
   $('.statistics').append('Correct moves: &nbsp&nbsp&nbsp' + correctMoves +'<br />');
   $('.statistics').append('Avg response: &nbsp&nbsp&nbsp&nbsp' + avgResponseTime + " seconds/card" +'<br />');
-  $('.statistics').append('Bonus count: &nbsp&nbsp&nbsp&nbsp'+ bonusCounter +'<br />');
+  $('.statistics').append('Bonus rounds: &nbsp&nbsp&nbsp&nbsp'+ bonusCounter +'<br />');
   $('#button_yes').off('click', checkWin); // disactivate event listener for button
   $('#button_partial').off('click', checkWin);
   $('#button_no').off('click', checkWin);
