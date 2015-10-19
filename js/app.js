@@ -22,7 +22,7 @@ var addBonusPoints = false; // intializing to false; will be true after 4 consec
                             //if true on a move bonus points will be added to score on that moveß
 var color_index = ['red','blue','green','yellow']; // define colors for cards
 var shape_index = ['circle','square','triangle','diamond']; // define shapes used for cards
-var timerSeconds = (61*1000); // sets game timer to 61 seconds
+var timerSeconds = (10*1000); // sets game timer to x seconds
 var avgResponseTime = 0; // initialize average response time
 var cardLog = []; //  will store the properties (color & shape) of the cards displayed since game start
 // cardLog array => each index element contains color and shape
@@ -33,7 +33,7 @@ var startGame = function () {
   startTimer(); // start timer
   makeCard(); // calls makeCard to create & display the 1st card
   setTimeout(makeCard, 2000);
-  // calls makeCard () to create & display the 2nd card after 2 seconds.
+  // calls makeCard () to create & display the 2nd card 2 seconds after the 1st card was displayed.
   // thereafter, a new Card will only be displayed after receiving the player's input click about
   // whether they think there was a a complete match (yes), partial match (partial) or no match (no)
   stopGame(); //calls function to stop Game which is based on a timer
@@ -204,7 +204,7 @@ var endGame = function () {  // ends the game after X seconds and displays board
   containerTextContent.appendTo(game_over_holder);
   $('.statistics').append('Your Game statistics are: ' + '<br /> <br />');
   $('.statistics').append('Accuracy: &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp' + (accuracy) +' %' + '<br />');
-  $('.statistics').append('Cards displayed: ' + cardsDisplayed+'<br />');
+  $('.statistics').append('Cards displayed: ' + (cardsDisplayed-2)+'<br />');
   $('.statistics').append('Correct moves: &nbsp&nbsp&nbsp' + correctMoves +'<br />');
   $('.statistics').append('Avg response: &nbsp&nbsp&nbsp&nbsp' + avgResponseTime + " seconds/card" +'<br />');
   $('.statistics').append('Bonus rounds: &nbsp&nbsp&nbsp&nbsp'+ bonusCounter +'<br />');
