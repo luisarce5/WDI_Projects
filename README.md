@@ -43,4 +43,5 @@ There are three buttons for input by the **Player**: **Yes** button, **Partial**
 
 There is a **Start** button to start the **Game**.  The **Start** button can be clicked again after a **Game** has ended and the game statics have been displayed in order to play a new **Game**.
 
+
 ---
