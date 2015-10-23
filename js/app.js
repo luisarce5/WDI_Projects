@@ -22,7 +22,7 @@ var addBonusPoints = false; // intializing to false; will be true after 4 consec
                             //if true on a move bonus points will be added to score on that moveß
 var color_index = ['red','blue','green','yellow']; // define colors for cards
 var shape_index = ['circle','square','triangle','diamond']; // define shapes used for cards
-var timerSeconds = (10*1000); // sets game timer to x seconds
+var timerSeconds = (45*1000); // sets game timer to x seconds
 var avgResponseTime = 0; // initialize average response time
 var cardLog = []; //  will store the properties (color & shape) of the cards displayed since game start
 // cardLog array => each index element contains color and shape
@@ -234,13 +234,3 @@ var placeNewBoard = function () { // places a new Board with original properties
     $('#button_no').on('click', {answer: no}, checkWin); //
   };
 };
-
-
-
-
-
-//                               null
-//                .on( events [, selector ] [, data ], handler )
-// $('#button_no').on('click',              {answer: no}, checkWin);
-//
-//                .off( events [, selector ] [, handler ] )
